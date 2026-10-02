@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FitBuddy | Admin Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='css/style.css') }}">
+</head>
+<body>
+    <header class="topbar">
+        <a href="/" class="brand">FIT<span>BUDDY</span></a>
+        <a href="/" class="nav-link">← Home</a>
+    </header>
+
+    <main class="page wide">
+        <section class="card">
+            <p class="eyebrow">ADMIN / COACH</p>
+            <h1>All Users & Plans</h1>
+            <p class="muted">Review registered users and their original or updated plans.</p>
+        </section>
+
+        {% if users %}
+        {% for user in users %}
+        <section class="card user-card">
+            <div class="user-heading">
+                <div>
+                    <h2>{{ user.name }}</h2>
+                    <p class="muted">User ID: {{ user.user_id }}</p>
+                </div>
+                <form action="/delete-user/{{ user.id }}" method="post"
+                      onsubmit="return confirm('Delete this user and their plans?');">
+                    <button class="danger-btn" type="submit">Delete</button>
+                </form>
+            </div>
+
+            <div class="profile-grid">
+                <span><b>Age</b>{{ user.age }}</span>
+                <span><b>Weight</b>{{ user.weight }} kg</span>
+                <span><b>Goal</b>{{ user.goal }}</span>
+                <span><b>Intensity</b>{{ user.intensity }}</span>
+            </div>
+
+            {% for plan in user.plans %}
+            <details>
+                <summary>Plan #{{ plan.id }} — View Details</summary>
+                <h3>Original Plan</h3>
+                <pre class="plan compact">{{ plan.original_plan }}</pre>
+
+                {% if plan.feedback %}
+                <h3>Feedback</h3>
+                <p>{{ plan.feedback }}</p>
+                {% endif %}
+
+                {% if plan.updated_plan %}
+                <h3>Updated Plan</h3>
+                <pre class="plan compact">{{ plan.updated_plan }}</pre>
+                {% endif %}
+            </details>
+            {% endfor %}
+        </section>
+        {% endfor %}
+        {% else %}
+        <section class="card">
+            <h2>No users yet</h2>
+            <p class="muted">Generate a plan from the home page to create the first user.</p>
+        </section>
+        {% endif %}
+    </main>
+</body>
+</html>

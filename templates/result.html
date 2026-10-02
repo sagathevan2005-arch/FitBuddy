@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FitBuddy | Your Plan</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='css/style.css') }}">
+</head>
+<body>
+    <header class="topbar">
+        <a href="/" class="brand">FIT<span>BUDDY</span></a>
+        <a href="/view-all-users" class="nav-link">Admin Dashboard</a>
+    </header>
+
+    <main class="page">
+        {% if message %}
+        <div class="alert">{{ message }}</div>
+        {% endif %}
+
+        {% if user and plan %}
+        <section class="card profile">
+            <div>
+                <p class="eyebrow">PERSONALIZED PLAN</p>
+                <h1>Hello, {{ user.name }} 👋</h1>
+                <p class="muted">Your AI-generated fitness plan is ready.</p>
+            </div>
+            <div class="profile-grid">
+                <span><b>User ID</b>{{ user.user_id }}</span>
+                <span><b>Age</b>{{ user.age }}</span>
+                <span><b>Weight</b>{{ user.weight }} kg</span>
+                <span><b>Goal</b>{{ user.goal }}</span>
+                <span><b>Intensity</b>{{ user.intensity }}</span>
+            </div>
+        </section>
+
+        <section class="card">
+            <div class="section-title">
+                <span>🏋️</span>
+                <h2>7-Day Workout Plan</h2>
+            </div>
+            <pre class="plan">{{ plan.updated_plan or plan.original_plan }}</pre>
+        </section>
+
+        <section class="card tip">
+            <div class="section-title">
+                <span>🥗</span>
+                <h2>Nutrition / Recovery Tip</h2>
+            </div>
+            <p>{{ plan.nutrition_tip }}</p>
+        </section>
+
+        <section class="card">
+            <div class="section-title">
+                <span>🔄</span>
+                <h2>Update Your Plan</h2>
+            </div>
+            <p class="muted">Tell FitBuddy what you want changed, such as more cardio or more rest days.</p>
+
+            <form action="/submit-feedback" method="post">
+                <input type="hidden" name="user_id" value="{{ user.user_id }}">
+                <textarea name="feedback" rows="5" maxlength="2000"
+                    placeholder="Example: Add more cardio and include an extra rest day." required></textarea>
+                <button class="primary-btn" type="submit">UPDATE PLAN WITH AI</button>
+            </form>
+        </section>
+        {% else %}
+        <section class="card">
+            <h1>Something went wrong</h1>
+            <p>{{ message or "No plan available." }}</p>
+            <a class="primary-btn inline" href="/">Back to FitBuddy</a>
+        </section>
+        {% endif %}
+    </main>
+</body>
+</html>

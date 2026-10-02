@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FitBuddy | AI Fitness Plan Generator</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='css/style.css') }}">
+</head>
+<body class="hero">
+    <div class="overlay"></div>
+
+    <main class="container">
+        <section class="card form-card">
+            <div class="brand">FIT<span>BUDDY</span></div>
+            <p class="subtitle">AI Fitness Plan Generator</p>
+
+            <h1>Create Your Personalized Plan</h1>
+            <p class="muted">Enter your details and let AI create a structured 7-day fitness plan.</p>
+
+            <form action="/generate-workout" method="post" class="form-grid">
+                <label>
+                    Name
+                    <input type="text" name="name" placeholder="Your name" required>
+                </label>
+
+                <label>
+                    User ID
+                    <input type="text" name="user_id" placeholder="e.g. FB001" required>
+                </label>
+
+                <label>
+                    Age
+                    <input type="number" name="age" min="13" max="100" required>
+                </label>
+
+                <label>
+                    Weight (kg)
+                    <input type="text" name="weight" placeholder="e.g. 65" required>
+                </label>
+
+                <label>
+                    Fitness Goal
+                    <select name="goal" required>
+                        <option value="weight loss">Weight Loss</option>
+                        <option value="muscle gain">Muscle Gain</option>
+                        <option value="general wellness">General Wellness</option>
+                        <option value="flexibility">Flexibility</option>
+                        <option value="endurance">Endurance</option>
+                    </select>
+                </label>
+
+                <label>
+                    Workout Intensity
+                    <select name="intensity" required>
+                        <option value="low">Low</option>
+                        <option value="medium" selected>Medium</option>
+                        <option value="high">High</option>
+                    </select>
+                </label>
+
+                <button class="primary-btn full" type="submit">GENERATE 7-DAY PLAN</button>
+            </form>
+
+            <p class="small-note">
+                AI-generated fitness guidance is for general informational purposes.
+                Consider professional advice for injuries or medical conditions.
+            </p>
+
+            <a class="admin-link" href="/view-all-users">Admin / Coach Dashboard →</a>
+        </section>
+    </main>
+</body>
+</html>
